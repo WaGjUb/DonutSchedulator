@@ -4,3 +4,10 @@ Entrega dia 05/04
 - Escalonador
 - Verificador de deadlock
 
+Regras:
+- O escalonador deve produzir schedules serializáveis em conflito
+- Não precisam ser Schedules sem cascata ou estrito
+- Precisam ser schedueles recuperáveis
+- Deadlocks podem ocorrer:
+* Caso ocorram, o sistema deve emitir a mensagem abaixo e encerrar:
+  - DEADLOCK ENCONTRADO - TRANSAÇÕES ENCOLVIDAS T1, T2 E T3
