@@ -16,10 +16,16 @@ def checarParametros():
 
 #Escreve na tela cada transacao
 def mkTansacao( nomeTransacao, Dados, nAcoes ):
-    print( "S" + str(nomeTransacao), end=" " )
+
+    #inicio da transacao
+    print( "S" + str(nomeTransacao), end="; " )
+    
+    #acessos da transacao
     for i in range( nAcoes ):
-        print( rd.choice(acoes)+"("+rd.choice(Dados)+")", end=" " )
-    print("E:"+str(nomeTransacao) )
+        print( rd.choice(acoes)+ str(nomeTransacao)+"("+rd.choice(Dados)+")", end="; " )
+
+    #fim da trasacao
+    print("E"+str(nomeTransacao), end=";\n" )
 
 
 if __name__ == "__main__" :
