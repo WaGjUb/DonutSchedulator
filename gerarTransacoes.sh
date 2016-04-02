@@ -9,6 +9,7 @@ export LANG=pt_BR
 #quantos acessos por transação
 #nome do arquivo para salvar
 
+#testa se o script esta presente..
 if ! [ -f ./mktasks.py ]
 then
     echo "Script mktasks.py não existe.. encontre-o !"
