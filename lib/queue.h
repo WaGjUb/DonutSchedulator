@@ -4,24 +4,26 @@
 typedef struct node
 {
 	struct node *next;
-	char val[16]; //R1(x) <-- exemplo
+	char val[10]; //R1(x) OU A1 OU 23 <-- exemplo1 schedule, exemplo 2 item a bloqueado por t1 e exemplo 3 t3 espera t2
 
-} Node;
+} Node; //para deadlock usaremos val[0] = transação que bloqueou o dado e val[1] = transacao que está esperando o dado ser desbloqueado BLOQUEI ESCRITA	
 
 typedef struct scheduleQueue
 {
-	Node *first;
+	Node *first; 
+	Node *last;
 	int size;
-}Queue;
+}Queue; //fila de execução geral e da espera
+
 
 typedef enum Boolean 
 {
 true=1, false=0
 } bool;
 
-void initialize(Queue *q)
-Queue* createQueue()
-bool insertQueue(Queue *q, Node n)
-bool removeQueue(Queue *q, Node *n)
+void initialize(Queue *q);
+Queue* createQueue();
+bool insertQueue(Queue *q, Node n);
+bool removeQueue(Queue *q, Node *n);
 
 #endif
