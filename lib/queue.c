@@ -47,6 +47,7 @@ bool removeQueue(Queue *q, Node *n)
 {
 	if (q->first == NULL)
 	{
+		n = NULL;
 		return(false);
 	}	
 	

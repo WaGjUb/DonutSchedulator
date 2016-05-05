@@ -40,8 +40,9 @@ if __name__ == "__main__" :
 
     #Lista de Dados
     Dados = alfabeto[:nDados]
-    print( Dados )
+#    print( Dados )
 
+    print( str(nDados)+",",str(nTrans)+",",str(nAcesso))
     for i in range( nTrans ):
         print("T"+str(i)+":", end=" ")
         mkTansacao( i, Dados, nAcesso )

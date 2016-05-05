@@ -19,7 +19,9 @@ typedef enum Boolean
 true=1, false=0
 } bool;
 
-queue* createqueue();
-bool insertqueue();
-bool removequeue();
+void initialize(Queue *q)
+Queue* createQueue()
+bool insertQueue(Queue *q, Node n)
+bool removeQueue(Queue *q, Node *n)
+
 #endif

@@ -1,8 +1,12 @@
 import random as rd
 #Lê todas as linhas na memoria a partir do stdout
 transacoes = [ ]
+#i = 0
+print(input())
 try:
     while True:
+ #       print( input(), i );
+      #  i = i+1
         transacoes.append( input().split(" ") )
 except EOFError:
     #remove o identificador da transacao
@@ -12,6 +16,8 @@ except EOFError:
     pass
 
 #Aqui comeca a criacao da schedule
+#transacao = transacoes[0]
+#transacoes.remove( transacao )
 while len(transacoes):
     transacao = rd.choice( transacoes )     #sorteia uma transacao
     if len(transacao):
