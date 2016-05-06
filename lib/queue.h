@@ -4,7 +4,7 @@
 typedef struct node
 {
 	struct node *next;
-	char val[10]; //R1(x) OU A1 OU 23 <-- exemplo1 schedule, exemplo 2 item a bloqueado por t1 e exemplo 3 t3 espera t2
+	char val[10]; //R1(x) OU A1 OU 2;3 <-- exemplo1 schedule, exemplo 2 item a bloqueado por t1 e exemplo 3 t3 espera t2
 
 } Node; //para deadlock usaremos val[0] = transação que bloqueou o dado e val[1] = transacao que está esperando o dado ser desbloqueado BLOQUEI ESCRITA	
 

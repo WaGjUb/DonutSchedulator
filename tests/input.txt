@@ -1,0 +1,29 @@
+-- 01
+S4; S1; R4(B); S0; S2; R0(E); W0(A); W1(D); R2(E); W1(C); R0(C); R0(A); W1(A); R1(A); R4(D); E0; E1; W4(D); S3; R3(B); W4(E); R3(A); W3(B); W3(A); R2(E); R2(A); W2(C); E3; E4; E2;
+
+-- 02
+S4; S3; S2; S0; R4(B); W3(E); W2(E); W2(B); S1; W2(D); R2(B); E2; W0(A); W4(E); W1(E); R1(D); R1(A); R3(A); R1(A); R3(A); W0(B); R3(B); W0(E); R0(A); R4(E); E1; E0; W4(D); E3; E4; 
+
+-- 03
+S2; S0; S3; W2(A); S1; W3(B); R0(D); R2(B); R2(E); S4; R2(D); R1(D); R1(D); E2; R1(D); R0(C); R1(C); R4(E); R0(E); R4(D); R0(D); E0; R4(D); R4(E); E1; R3(A); R3(E); R3(E); E3; E4; 
+
+-- 04
+S4; R4(C); S3; S0; R4(A); R3(A); R0(D); S1; S2; R1(C); W2(B); R4(E); R3(D); R2(B); R2(E); R3(A); R3(C); R2(E); R1(A); R1(D); E2; E3; R1(C); E1; R0(A); R0(E); R0(C); R4(D); E4; E0; 
+
+-- 05
+S0; S3; S2; R0(C); S1; R2(B); S4; W2(B); W2(E); R4(D); W3(A); R1(C); R2(B); R0(C); W0(C); W3(A); R1(C); E2; W3(A); R3(D); R1(B); R0(B); W4(E); E0; R4(E); R1(B); W4(E); E4; E3; E1; 
+
+-- 06
+S1; S4; S0; R4(C); S3; S2; R0(D); R3(A); W3(A); R4(B); R4(E); R0(B); R1(C); R2(B); R3(A); R3(C); R1(B); E3; R0(E); R2(E); R2(E); R2(E); R0(C); E0; E2; R4(D); R1(D); E4; R1(C); E1; 
+
+-- 07
+S4; S3; S2; S0; R4(B); W3(E); W2(A); W2(C); S1; W2(D); R2(B); E2; W0(A); W4(C); R1(B); R1(D); R1(B); R3(D); R1(D); R3(E); W0(A); R3(E); R0(B); R0(D); R4(C); E1; E0; W4(A); E3; E4; 
+
+-- 08
+S9; S6; S2; W2(E); S7; S1; S0; S4; R2(B); S3; R0(C); S5; S8; R8(B); R7(C); R7(B); R6(D); R9(B); R5(B); R9(B); R0(C); W2(E); W6(D); R8(C); R1(B); W9(A); R4(C); R1(B); R9(A); R0(C); R8(B); W6(D); R8(C); E9; W2(E); W7(A); R4(C); R0(C); W6(D); E6; E2; R1(D); W7(A); E7; W5(E); W4(A); R3(D); R1(B); R3(B); E0; E8; W4(C); E1; W3(D); R5(B); R3(B); R5(E); E4; E3; E5; 
+
+-- 09
+S4; S2; S1; S3; W2(C); R1(B); W3(A); R4(B); R4(D); R2(D); W4(E); R4(E); R2(C); W2(C); E4; S0; R3(A); R3(D); W1(B); E2; R1(D); W1(E); W0(C); W3(A); R0(C); E1; E3; W0(A); R0(D); E0; 
+
+-- 10
+S2; S0; S3; W2(A); S1; R3(B); W0(D); R2(C); W2(C); S4; W2(E); R1(B); E2; W1(A); R1(A); W0(D); W1(C); R4(B); R0(E); R4(E); R0(D); E0; R4(E); R4(E); E1; R3(E); W3(D); R3(E); E3; E4; 

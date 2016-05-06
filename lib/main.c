@@ -3,6 +3,11 @@
 
 int main ()
 {
+	Queue *exec;
+	Queue *wait;
+	Queue *lockItem;
+	Queue *deadlock;
 
+	
 	return(0);
 }
