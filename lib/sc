@@ -1,0 +1,2 @@
+3, 5, 10,
+S3; S0; R3(A); W3(B); W0(A); S4; S1; W0(B); W0(A); R1(B); S2; R3(B); R3(B); W0(C); R1(B); W1(A); R3(C); R3(B); R0(A); R0(B); W4(A); R1(C); W3(C); R4(A); W1(C); R2(B); R4(C); W0(C); W4(B); R1(C); W0(B); R0(C); R0(A); W4(C); R1(B); R3(C); R3(C); R4(A); R2(B); R3(A); W2(B); E0; W4(C); R2(C); R4(C); W1(A); E3; R4(B); R1(B); R4(C); R2(C); W2(C); E4; W2(C); R1(C); W2(B); R2(C); E1; W2(A); E2; 
