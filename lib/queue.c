@@ -66,6 +66,55 @@ bool removeQueue(Queue *q, Node *n)
 }
 
 
+bool removeLast(Queue *q, Node *n)
+{
+	if (q->last == NULL)
+	{
+		n = NULL;
+		return(false);
+	}	
+	
+	
+	Node *aux;
+	aux = q->first;
+	while (aux->next != q->last)
+	{
+		aux = aux->next;
+	}
+
+	q->last = aux;
+
+	aux = (Node*) malloc(sizeof(Node));
+	strcpy(n->val, q->last->next->val);
+	aux = q->last->next;
+	q->size--;
+	q->last->next = NULL;
+	free(aux);	
+	return(true);
+	
+}
+
+bool insertFirst(Queue *q, Node n)
+{
+	
+	Node *new;
+	
+	new = (Node*) malloc(sizeof(Node)); //cria novo nó
+	new->next = q->first; //nxt = first
+	strcpy(n.val, new->val); //copia a string
+
+	if (q->size == 0)
+	{
+		q->last = new;
+	}
+
+	q->first = new;
+
+	q->size++; //add 1 no tamanho da lista
+	return(true);
+	
+}
+
 
 //#endif
 
