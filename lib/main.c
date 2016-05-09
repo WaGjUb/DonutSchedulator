@@ -10,7 +10,7 @@ existeBloq(Queue *q, char val, char *quem) //TODOimplementar a correção para t
 	{
 		if (aux->val[2] == val) 
 		{
-			*quem  = aux->val[1]; //grava a transação que bloqueia esse dado
+			*quem  = aux->val[0]; //grava a transação que bloqueia esse dado
 			return (true);
 		} 
 
@@ -21,7 +21,7 @@ existeBloq(Queue *q, char val, char *quem) //TODOimplementar a correção para t
 }
 
 
-existeBloq(Queue *q, char val, char *quem) //TODOimplementar a correção para transação acima de 9, q->val = "a.b" a transacao e b item
+existeDeadLock(Queue *q, char val, char *quem) //TODOimplementar a correção para transação acima de 9, q->val = "a.b" a transacao e b item
 {
 	aux = q->first;
 
@@ -29,7 +29,7 @@ existeBloq(Queue *q, char val, char *quem) //TODOimplementar a correção para t
 	{
 		if (aux->val[2] == val) 
 		{
-			*quem  = aux->val[1]; //grava a transação que bloqueia esse dado
+			*quem  = aux->val[0]; //grava a transação que bloqueia esse dado
 			return (true);
 		} 
 
@@ -123,20 +123,40 @@ int main (int argc, char** argv)
 			}
 		else //commit entao libera
 		{
-			execucao->first->val[1];
+			if (existeDeadlock(deadlock, execucao->first->val[1], &quem)) //verifica se a transação que quer commitar está bloqueada
+			{
+				insertQueue(espera, execucao->first); //insere na espera
+				removeQueue(execucao, &deletado); //deleta da execução
+			}
+
+			else
+				{
 			//TODO função que encontra dentro de bloqueio os itens bloqueados por esta transação e apaga os nós
 			//TODO função que remove o deadlock desses dados também
 			
-			while (espera->size > 0) //esvazia a fila de espera para uma reexecução
-			{
-				insertFirst(execucao, espera->last);
-				removeLast(espera, &deletado);
+				while (espera->size > 0) //esvazia a fila de espera para uma reexecução
+				{
+					insertFirst(execucao, espera->last);
+					removeLast(espera, &deletado);
+				}
 			}
 		}
 	}
+	
 
-	//TODO if lista espera size >0  entao deadlock encontrado em todas as transações que estão em bloqueados
-
+	if (espera->size > 0)
+	{
+		fclose(out);
+		out = fopen(saida.txt, "w"); //recria o arquivo
+		fprintf(out, "DEADLOCK ENCONTRADO – TRANSAÇOES ENVOLVIDAS ")
+		while(deadlock->size > 0) 
+		{
+			removeQueue(deadlock, &deletado);
+			printf("T%c, T%c,", deletado->var[0], deletado->var[2]);
+		}
+			
+		
+	}
 
 	fclose(fp);
 	fclose(out);
