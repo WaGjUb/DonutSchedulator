@@ -26,5 +26,6 @@ Queue* createQueue();
 bool insertQueue(Queue *q, Node n);
 bool insertFirst(Queue *q, Node n);
 bool removeQueue(Queue *q, Node *n);
+bool removeLast(Queue *q, Node *n);
 
 #endif

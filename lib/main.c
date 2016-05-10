@@ -1,9 +1,51 @@
 #include <stdio.h>
 #include "queue.h"
 #include <string.h>
+#include <stdlib.h>
 
-existeBloq(Queue *q, char val, char *quem) //TODOimplementar a correção para transação acima de 9, q->val = "a.b" a transacao e b item
+bool existeBloq(Queue *q, char val, char *quem) //TODOimplementar a correção para transação acima de 9, q->val = "a.b" a transacao e b item
 {
+	Node *aux;
+	aux = q->first;
+
+	while (aux!=NULL)
+	{
+		if (aux->val[2] == val) 
+		{
+			*quem  = aux->val[0]; //grava a transação que bloqueia esse dado
+			printf("existe bloqueio"); ////////////////////////////////////////////////////////TODO DELETE
+			return (true);
+		} 
+
+		aux = aux->next;
+	}
+
+	return(false);
+}
+
+bool existeBloqAB(Queue *q, char* string) 
+{
+	Node *aux;
+	aux = q->first;
+
+	while (aux!=NULL)
+	{
+		if (!strcmp(aux->val, string)) //se as strings forem iguais
+		{
+			return (true);
+		} 
+
+		aux = aux->next;
+	}
+
+	return(false);
+}
+
+
+
+bool existeBlockDeadlock(Queue *q, char val, char *quem) //TODOimplementar a correção para transação acima de 9, q->val = "a.b" a transacao e b item
+{
+	Node* aux;
 	aux = q->first;
 
 	while (aux!=NULL)
@@ -21,24 +63,56 @@ existeBloq(Queue *q, char val, char *quem) //TODOimplementar a correção para t
 }
 
 
-existeDeadLock(Queue *q, char val, char *quem) //TODOimplementar a correção para transação acima de 9, q->val = "a.b" a transacao e b item
+void removeFromItem(Queue* q, char trans) //remove deadlock e bloq
 {
-	aux = q->first;
 
+	Node *aux;		
+	aux = q->first;
+	Node *auxprev = NULL;
 	while (aux!=NULL)
 	{
-		if (aux->val[2] == val) 
-		{
-			*quem  = aux->val[0]; //grava a transação que bloqueia esse dado
-			return (true);
-		} 
+		if (aux->val[0] == trans)  
+		{	if ((auxprev == NULL) || ((aux->next == NULL) && (q->size>1)))
+			{
+			if (auxprev == NULL)
+			{
+				aux->next = NULL;
+				q->first = q->first->next;
+			}
 
+			if ((aux->next == NULL) && (q->size>1))
+			{
+				q->last = NULL;
+				q->first = NULL;
+			}
+			}
+			else
+			{
+				auxprev->next = aux->next;
+			}
+			aux->next = NULL;
+			free(aux);
+			q->size--;
+		} 
+		auxprev = aux;
 		aux = aux->next;
 	}
 
-	return(false);
 }
 
+	void printLista(Queue *q)
+	{
+		Node* aux;
+		
+		aux = q->first;
+		
+		printf("PRINT LISTA\n");
+		while(aux!=NULL)
+		{
+		printf("%s\n", aux->val); 
+		aux=aux->next;
+		}
+	}
 int main (int argc, char** argv)
 {
 	Queue* execucao = createQueue(); //fila que será executada (schedule do arquivo)
@@ -50,18 +124,19 @@ int main (int argc, char** argv)
 	char quem;
 	FILE *fp;
 	FILE *out;
-	
-	fp = fopen(argv[1], "r"); 
+
+	fp = fopen("t1", "r"); //TODO argv[1]
 	if (fp == NULL)
 	{
 		printf("O arquivo %s não existe!\n", argv[1]);
 		return(1);
 	}
 
-	out = fopen(saida.txt, "w");
+	out = fopen("saida.txt", "w");
 
 	//TODO melhorar o tokenizador!	
-	fscanf(fp, "%[^\n]", tokenaux);	
+	char ignore;
+	fscanf(fp, "%[^\n]%c", tokenaux, &ignore);	
 	while (!feof(fp))
 	{	
 		int i;
@@ -72,9 +147,13 @@ int main (int argc, char** argv)
 		Node aux;
 		aux.next = NULL;
 		strcpy(aux.val, tokenaux);
-		insertQueue(execucao, aux);
-
-		printf("%s\n", tokenaux);
+//		printf("valor->>> %s\n",aux.val);
+		if (aux.val[0] != 'S')
+		{
+			insertQueue(execucao, aux);
+		}
+		printf("-%s\n", tokenaux);
+		printLista(execucao);
 	}
 
 
@@ -82,11 +161,10 @@ int main (int argc, char** argv)
 	//roda a execução da lista TODO concertar caso haja mais de 10 transacoes
 	while (execucao->size > 0)
 	{
-
 		if (execucao->first->val[0] != 'E')
 		{
-			if (existeBloq(bloqueios, execucao->first->val[3], &quem)) //verifica se o item já está bloqueada
-			{
+			if (existeBloq(bloqueios, execucao->first->val[3], &quem) && (quem != execucao->first->val[1])) //verifica se o item já está bloqueada
+			{printf("aqui, size->%d\n", execucao->size);
 				Node *novoDeadlock = (Node*) malloc(sizeof(Node));
 				char deadstring[10];
 				deadstring[0] = quem; //bloqueador
@@ -94,13 +172,22 @@ int main (int argc, char** argv)
 				deadstring[2] = execucao->first->val[1]; //bloqueado 
 				deadstring[3] = '\0';  //////////////////////TODO
 				strcpy(novoDeadlock->val, deadstring);
-				novoDeadlock->first = NULL;
-	
-				insertQueue(espera, execucao->first); //insere na espera
-				insertQueue(deadlock, novoDeadlock); //insere deadlock
-				//TODO rodar aqui uma função que verifica se há o deadlock
+
+
+				Node* novaEspera = (Node*) malloc(sizeof(Node));
+				strcpy(novaEspera->val, execucao->first->val);
+				novaEspera->next = NULL;
+
+				if (!existeBloqAB(deadlock, deadstring)) //se o deadlock não existe esse nó
+				{
+					insertQueue(deadlock, *novoDeadlock); //insere deadlock
+					free(novoDeadlock);
+				}
+
+				insertQueue(espera, *novaEspera); //insere na espera
+				free(novaEspera);
 				removeQueue(execucao, &deletado); //deleta da execução
-	
+
 			}
 			else
 			{
@@ -108,54 +195,70 @@ int main (int argc, char** argv)
 				{
 					Node *novoBloqueio = (Node*) malloc(sizeof(Node));
 					char valor[5];
-	
+
 					valor[0] = execucao->first->val[1]; //transacao
 					valor[1] = '.';
 					valor[2] = execucao->first->val[3]; //valor
 					valor[3] = '\0';
 					strcpy(novoBloqueio->val,valor); 
-					insertQueue(bloqueios, novoBloqueio); //bloqueia o dado
-					
+
+					//TODO nao inserir mais de um bloqueio
+
+					insertQueue(bloqueios, *novoBloqueio); //bloqueia o dado
+					free(novoBloqueio);
+
 				}
-				
-				fprintf(out, "%s; ",execucao->first->val);
+		
+				fprintf(out, "%s; ", execucao->first->val);
+			//	printf("Adicionado: %c%c%c%c\n ",execucao->first->val[0],execucao->first->val[1],execucao->first->val[2],execucao->first->val[3]);
 				removeQueue(execucao, &deletado);
 			}
+		}
 		else //commit entao libera
 		{
-			if (existeDeadlock(deadlock, execucao->first->val[1], &quem)) //verifica se a transação que quer commitar está bloqueada
+			if (existeBlockDeadlock(deadlock, execucao->first->val[1], &quem)) //verifica se a transação que quer commitar está bloqueada
 			{
-				insertQueue(espera, execucao->first); //insere na espera
+				Node novaEspera;
+				strcpy(novaEspera.val, execucao->first->val);
+				novaEspera.next = NULL;
+
+				insertQueue(espera, novaEspera); //insere na espera
 				removeQueue(execucao, &deletado); //deleta da execução
 			}
 
-			else
-				{
-			//TODO função que encontra dentro de bloqueio os itens bloqueados por esta transação e apaga os nós
-			//TODO função que remove o deadlock desses dados também
-			
+			else 
+			{
+				removeFromItem(bloqueios, execucao->first->val[1]);
+				removeFromItem(deadlock, execucao->first->val[1]);
+				fprintf(out, "%s; ",execucao->first->val);
+				removeQueue(execucao, &deletado);
+
 				while (espera->size > 0) //esvazia a fila de espera para uma reexecução
 				{
-					insertFirst(execucao, espera->last);
+					Node novaExecucao;
+					novaExecucao.next = NULL;
+					strcpy(novaExecucao.val, espera->last->val);
+					
+					insertFirst(execucao, novaExecucao);
 					removeLast(espera, &deletado);
 				}
 			}
 		}
 	}
-	
+
 
 	if (espera->size > 0)
 	{
 		fclose(out);
-		out = fopen(saida.txt, "w"); //recria o arquivo
-		fprintf(out, "DEADLOCK ENCONTRADO – TRANSAÇOES ENVOLVIDAS ")
-		while(deadlock->size > 0) 
-		{
-			removeQueue(deadlock, &deletado);
-			printf("T%c, T%c,", deletado->var[0], deletado->var[2]);
-		}
-			
-		
+		out = fopen("saida.txt", "w"); //recria o arquivo
+		fprintf(out, "DEADLOCK ENCONTRADO – TRANSAÇOES ENVOLVIDAS ");
+			while(deadlock->size > 0) 
+			{
+				removeQueue(deadlock, &deletado);
+				printf("T%c, T%c,", deletado.val[0], deletado.val[2]);
+			}
+
+
 	}
 
 	fclose(fp);

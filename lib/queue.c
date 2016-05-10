@@ -25,7 +25,7 @@ bool insertQueue(Queue *q, Node n)
 	
 	new = (Node*) malloc(sizeof(Node)); //cria novo nó
 	new->next = NULL; //nxt = null
-	strcpy(n.val, new->val); //copia a string
+	strcpy(new->val, n.val); //copia a string
 
 	if (q->first == NULL)
 	{
@@ -68,6 +68,8 @@ bool removeQueue(Queue *q, Node *n)
 
 bool removeLast(Queue *q, Node *n)
 {
+	if (q->size > 1)
+	{
 	if (q->last == NULL)
 	{
 		n = NULL;
@@ -89,7 +91,25 @@ bool removeLast(Queue *q, Node *n)
 	aux = q->last->next;
 	q->size--;
 	q->last->next = NULL;
-	free(aux);	
+	free(aux);
+	}
+
+	else
+	{
+		if (q->size == 0)
+		{
+			return(false);
+		}
+	
+		if(q->size == 1)
+		{
+			free (q->last);
+			q->last = NULL;
+			q->first = NULL;
+			q->size = 0;
+			return(true);
+		}
+	}	
 	return(true);
 	
 }
@@ -101,7 +121,7 @@ bool insertFirst(Queue *q, Node n)
 	
 	new = (Node*) malloc(sizeof(Node)); //cria novo nó
 	new->next = q->first; //nxt = first
-	strcpy(n.val, new->val); //copia a string
+	strcpy(new->val, n.val); //copia a string
 
 	if (q->size == 0)
 	{
