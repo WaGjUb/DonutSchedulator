@@ -1,7 +1,7 @@
 BIBNAME = "./lib/queue"
 MAINAME = "./src/main"
 BIBOUTPUT = "BIBMAPA"
-MAINOUTPUT = "a"
+MAINOUTPUT = "DonutSchedulator"
 
 all: bib
 	@printf "Compilando o $(MAINAME)... \n"

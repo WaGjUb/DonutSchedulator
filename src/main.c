@@ -143,6 +143,13 @@ int main (int argc, char** argv)
 		int i;
 		fscanf(fp, "%[^ ] ", tokenaux);
 		i = strlen(tokenaux);
+		if(i > 6)
+		{
+			fclose(fp);
+			fclose(out);
+			printf("DonutSchedulator suporta no maximo 10 transações (de T0 até T9), insira uma entrada válida!\n");
+			return(0);
+		}
 		tokenaux[i-1] = '\0';
 
 		Node aux;
