@@ -1,1 +1,1 @@
-DEADLOCK ENCONTRADO – TRANSAÇOES ENVOLVIDAS 
+R4(C); R4(A); R3(A); R0(D); R1(C); W2(B); R4(E); R3(D); R2(B); R2(E); R3(A); R3(C); R2(E); R1(A); R1(D); C2; C3; R1(C); C1; R0(A); R0(E); R0(C); R4(D); C4; C0; 

@@ -1,5 +1,5 @@
-BIBNAME = "./queue"
-MAINAME = "./main"
+BIBNAME = "./lib/queue"
+MAINAME = "./src/main"
 BIBOUTPUT = "BIBMAPA"
 MAINOUTPUT = "a"
 

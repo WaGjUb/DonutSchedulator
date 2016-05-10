@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "queue.h"
+#include "./../lib/queue.h"
 #include <string.h>
 #include <stdlib.h>
 
@@ -13,7 +13,7 @@ bool existeBloq(Queue *q, char val, char *quem) //TODOimplementar a correção p
 		if (aux->val[2] == val) 
 		{
 			*quem  = aux->val[0]; //grava a transação que bloqueia esse dado
-			printf("existe bloqueio"); ////////////////////////////////////////////////////////TODO DELETE
+//			printf("existe bloqueio"); ////////////////////////////////////////////////////////TODO DELETE
 			return (true);
 		} 
 
@@ -124,8 +124,9 @@ int main (int argc, char** argv)
 	char quem;
 	FILE *fp;
 	FILE *out;
+	argc++; //elimina o warning
 
-	fp = fopen("t1", "r"); //TODO argv[1]
+	fp = fopen(argv[1], "r"); //TODO argv[1]
 	if (fp == NULL)
 	{
 		printf("O arquivo %s não existe!\n", argv[1]);
@@ -152,8 +153,8 @@ int main (int argc, char** argv)
 		{
 			insertQueue(execucao, aux);
 		}
-		printf("-%s\n", tokenaux);
-		printLista(execucao);
+//		printf("-%s\n", tokenaux);
+//		printLista(execucao);
 	}
 
 
@@ -164,7 +165,7 @@ int main (int argc, char** argv)
 		if (execucao->first->val[0] != 'E')
 		{
 			if (existeBloq(bloqueios, execucao->first->val[3], &quem) && (quem != execucao->first->val[1])) //verifica se o item já está bloqueada
-			{printf("aqui, size->%d\n", execucao->size);
+			{//printf("aqui, size->%d\n", execucao->size);
 				Node *novoDeadlock = (Node*) malloc(sizeof(Node));
 				char deadstring[10];
 				deadstring[0] = quem; //bloqueador
@@ -230,7 +231,7 @@ int main (int argc, char** argv)
 			{
 				removeFromItem(bloqueios, execucao->first->val[1]);
 				removeFromItem(deadlock, execucao->first->val[1]);
-				fprintf(out, "%s; ",execucao->first->val);
+				fprintf(out, "C%s; ",execucao->first->val+1);
 				removeQueue(execucao, &deletado);
 
 				while (espera->size > 0) //esvazia a fila de espera para uma reexecução
@@ -252,13 +253,32 @@ int main (int argc, char** argv)
 		fclose(out);
 		out = fopen("saida.txt", "w"); //recria o arquivo
 		fprintf(out, "DEADLOCK ENCONTRADO – TRANSAÇOES ENVOLVIDAS ");
+		char trde[20]={"aaaaaaaaaaaaaaaaaaa"};
+		int count = 0;
+		int oldcount =0;
 			while(deadlock->size > 0) 
 			{
 				removeQueue(deadlock, &deletado);
-				printf("T%c, T%c,", deletado.val[0], deletado.val[2]);
+				trde[deletado.val[0]-'0'] = 'b';
+				trde[deletado.val[2]-'0'] = 'b';
+//				printf("T%c, T%c,", deletado.val[0], deletado.val[2]);
 			}
+			int j;
+			int tamanhostring = strlen(trde);; //elimina o warning da comparação
+			for (j=0; j<tamanhostring; j++)
+			{			
+				if (trde[j] == 'b')
+				{
+					if (count > oldcount)
+					{
+						fprintf(out,", ");
+					}
+					fprintf(out,"T%d", j);
+					oldcount = count;
+					count++;
+				}
 
-
+			}
 	}
 
 	fclose(fp);
