@@ -1,7 +1,7 @@
 #include <stdio.h>
-#include "./../lib/queue.h"
 #include <string.h>
 #include <stdlib.h>
+#include "../lib/queue.h"
 
 bool existeBloq(Queue *q, char val, char *quem) //TODOimplementar a correção para transação acima de 9, q->val = "a.b" a transacao e b item
 {
@@ -69,22 +69,23 @@ void removeFromItem(Queue* q, char trans) //remove deadlock e bloq
 	Node *aux;		
 	aux = q->first;
 	Node *auxprev = NULL;
+	bool removed = false;
 	while (aux!=NULL)
 	{
 		if (aux->val[0] == trans)  
 		{	if ((auxprev == NULL) || ((aux->next == NULL) && (q->size>1)))
 			{
-			if (auxprev == NULL)
-			{
-				aux->next = NULL;
-				q->first = q->first->next;
-			}
+				if (auxprev == NULL)
+				{
+					aux->next = NULL;
+					q->first = q->first->next;
+				}		
 
-			if ((aux->next == NULL) && (q->size>1))
-			{
-				q->last = NULL;
-				q->first = NULL;
-			}
+				if ((aux->next == NULL) && (q->size>1))
+				{
+					q->last = NULL;
+					q->first = NULL;
+				}
 			}
 			else
 			{
@@ -93,9 +94,19 @@ void removeFromItem(Queue* q, char trans) //remove deadlock e bloq
 			aux->next = NULL;
 			free(aux);
 			q->size--;
+			removed = true;
+		}
+		if (removed)
+		{
+			auxprev = NULL;
+			aux = q->first;
+			removed = false;
 		} 
-		auxprev = aux;
-		aux = aux->next;
+		else
+		{
+			auxprev = aux;
+			aux = aux->next;
+		}
 	}
 
 }
@@ -224,6 +235,11 @@ int main (int argc, char** argv)
 		}
 		else //commit entao libera
 		{
+
+//printf("ANTES-->>>>>>COMMIT %c\n", execucao->first->val[1]);
+//printLista(deadlock);
+//printf("\nBLOQUEIO\n");
+//printLista(bloqueios);
 			if (existeBlockDeadlock(deadlock, execucao->first->val[1], &quem)) //verifica se a transação que quer commitar está bloqueada
 			{
 				Node novaEspera;
@@ -251,7 +267,11 @@ int main (int argc, char** argv)
 					removeLast(espera, &deletado);
 				}
 			}
-		}
+//	printf("\nPOS DEAD\n");
+//	printLista(deadlock);
+//printf("\nBLOQUEIO POS\n");
+//	printLista(bloqueios);
+	}
 	}
 
 

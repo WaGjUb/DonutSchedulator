@@ -6,7 +6,7 @@ Basta fazer uso os scripts "wrappers" feitos em Shell. Para tanto, mude a config
 ###Alternativamente
 Você pode passar os parâmetros para os scripts .sh diretamente. Segundo a ordem demonstrada na apresentação do projeto.
 
-###Executar o gerenciador
+###Executar o escalonador
 Deve rodar o make no diretorio raiz para compilar o código, o arquivo DonutSchedulator.out será gerado, execute ./DonutSchedulator.out 'nome do arquivo do schedule' sem os apostrofos. Por exemplo ./DonutSchedulator.out tests/t4
 
 ###Saída
